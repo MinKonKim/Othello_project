@@ -1,32 +1,54 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import blackStone from "../assets/blackStone.svg";
+import whiteStone from "../assets/whiteStone.svg";
 
 interface CellProps {
-  keyId: string;
+  keyId: number;
+  value: any;
 }
 
-const Button = styled.button<{ isBlue: boolean }>`
-  background-color: ${(props) => (props.isBlue ? "blue" : "red")};
+const Button = styled.button`
+  background-color: rgba(0, 99, 0, 0.5);
+  justify-content: center;
+  align-items: center;
   width: 56px;
   height: 56px;
-  border: 0.5px solid #ffd700;
   border-radius: 0;
+  margin: 2px;
 
   &:hover {
-    background-color: ${(props) => (props.isBlue ? "green" : "yellow")};
+    border-color: #00ffaa;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5vw;
   }
 `;
 
-const Cell: React.FC<CellProps> = ({ keyId }) => {
-  const [isBlue, setIsBlue] = useState(false);
+const getStone = (value: number) => {
+  switch (value) {
+    case 0:
+      return null;
+    case 1:
+      return <img src={blackStone} />;
+    case 2:
+      return <img src={whiteStone} />;
+  }
+};
+
+const Cell: React.FC<CellProps> = ({ keyId, value }) => {
+  const [isBlackStone, setIsBlackStone] = useState(false);
 
   const handleClick = () => {
-    setIsBlue((prevState) => !prevState);
+    setIsBlackStone((prevState) => !prevState);
   };
 
   return (
-    <Button key={keyId} isBlue={isBlue} onClick={handleClick}>
-      {/* 버튼 내용 */}
+    <Button key={keyId} onClick={handleClick}>
+      {getStone(value)}
     </Button>
   );
 };
