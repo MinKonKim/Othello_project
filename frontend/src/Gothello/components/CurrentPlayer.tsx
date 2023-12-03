@@ -1,14 +1,12 @@
 import React from "react";
+import useStoneStore from "../../stores/Stone";
 
-interface CurrentPlayerProps {
-  name: string;
-}
-
-const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ name }) => {
-  const currentUserName = name;
+const CurrentPlayer: React.FC = () => {
+  const { current } = useStoneStore();
+  let name = current === 1 ? "streamer" : "viewer";
   return (
     <div>
-      <h2>현재 플레이어: {`${currentUserName}`}</h2>
+      <h2>현재 플레이어: {`${name}`}</h2>
     </div>
   );
 };
