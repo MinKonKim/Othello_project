@@ -1,27 +1,21 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface Board {
-  value: number;
-}
-
 interface BoardStore {
-  values: Board[];
-  addValue(prev: number): void;
+  board: number[][];
+  setBoard(array: number[][]): void;
 }
 
 const useBoardStore = create<BoardStore>()(
   persist(
     (set) => ({
-      values: [],
-      addValue: (value: number) =>
-        set((state) => ({
-          values: [
-            ...state.values,
-            {
-              value: value,
-            },
-          ],
+      board: Array.from({ length: 8 }, () =>
+        Array.from({ length: 8 }, () => 0)
+      ),
+
+      setBoard: (array) =>
+        set(() => ({
+          board: array,
         })),
     }),
     {

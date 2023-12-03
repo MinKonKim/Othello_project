@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import useBoardStore from "../../stores/gameBoardStore";
+import GothelloBoardSquare from "./GothelloBoardSquare";
+import useStoneStore from "../../stores/Stone";
 
 const BoardContainer = styled.div`
   display: grid;
@@ -9,33 +10,55 @@ const BoardContainer = styled.div`
   gap: 2px;
 `;
 
-/** 흑돌 : 1 백돌 :2 없음 : 0 */
-const Board: React.FC = () => {
-  const { values, addValue } = useBoardStore();
-  useEffect(() => {
-    /**초기 게임보드 값 설정 */
-    for (let i = 0; i < 64; i++) {
-      if (i === 27 || i === 36) {
-        addValue(2);
-      } else if (i === 28 || i === 35) {
-        addValue(1);
-        // board.push(<Cell keyId={i} value={1} />);
-      } else {
-        addValue(0);
-        // board.push(<Cell keyId={i} value={0} />);
-      }
+const SQUARE_SIZE = 40;
+
+// 배열/ 행 / 열 / 값
+function updateBoardValue(
+  board: number[][],
+  rowIndex: number,
+  columnIndex: number,
+  newValue: number
+) {
+  const newBoard = board.map((row, rIndex) => {
+    if (rIndex == rowIndex) {
+      return row.map((cell, cIndex) => {
+        if (cIndex == columnIndex) {
+          return newValue;
+        }
+        return cell;
+      });
     }
-  }, [values]);
-  console.log(values);
+    return row;
+  });
+  return { board: newBoard };
+}
+
+/** 흑돌 : 1 백돌 :2 없음 : 0 */
+const GothelloBoard: React.FC = () => {
+  const { board } = useBoardStore();
+  const { current } = useStoneStore();
+  const stone = current;
   return (
-    // 8 * 8 베열 만들기
-    <div>
-      <div>
-        <BoardContainer>{`${values}`}</BoardContainer>
-        <h2> 현재 돌 색깔</h2>
-      </div>
-    </div>
+    <table>
+      <tbody>
+        {board.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <td>
+                <GothelloBoardSquare
+                  size={SQUARE_SIZE}
+                  x={cellIndex}
+                  y={rowIndex}
+                  stone={stone}
+                  isCanPut={board[rowIndex][cellIndex] > 0 ? false : true}
+                />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
-export default Board;
+export default GothelloBoard;

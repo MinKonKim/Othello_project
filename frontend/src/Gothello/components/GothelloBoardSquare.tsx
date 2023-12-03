@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
-import blackStone from "../assets/blackStone.svg";
-import whiteStone from "../assets/whiteStone.svg";
-import { render } from "react-dom";
+import blackStone from "../../assets/blackStone.svg";
+import whiteStone from "../../assets/whiteStone.svg";
+import useStoneStore from "../../stores/Stone";
 
 /** css  */
 const Button = styled.button`
@@ -39,7 +38,7 @@ interface GothelloBoardSquareProps {
   x: number;
   y: number;
   stone: number;
-  isPlace: boolean; // 돌을 둘 수 있는 자리인가?
+  isCanPut: boolean; // 돌을 둘 수 있는 자리인가?
 }
 
 const renderStone = (stone: number) => {
@@ -58,15 +57,34 @@ const GothelloBoardSquare = ({
   x,
   y,
   stone,
-  isPlace,
+  isCanPut,
 }: GothelloBoardSquareProps) => {
+  const { current, setCurrent } = useStoneStore();
+
   const id = x.toString() + "-" + y.toString();
-  const handleClick = () => {};
+
+  // 클릭시 , stone 생성
+  const putStone = () => {
+    console.log(stone);
+    if (isCanPut) {
+      // 이 자리에 둘 수 있다면
+      stone = current;
+      if (stone === 1) {
+        setCurrent(2);
+      } else {
+        setCurrent(1);
+      }
+      isCanPut = false;
+    } else {
+      // 이 자리에 둘 수 없다면
+      return;
+    }
+  };
 
   return (
     <div>
-      <Button size={size} onClick={handleClick} className={id}>
-        <div className="stone">{renderStone(stone)}</div>
+      <Button size={size} onClick={putStone} className={id}>
+        <div className="stone">{stone}</div>
       </Button>
     </div>
   );
