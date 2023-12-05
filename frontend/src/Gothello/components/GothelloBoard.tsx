@@ -27,13 +27,28 @@ const SQUARE_SIZE = "3.5rem";
 const GothelloBoard: React.FC = () => {
   const { board } = useBoardStore();
   const { current } = useStoneStore();
+
   // 초기값 지정
   board[3][3] = 2;
   board[3][4] = 1;
   board[4][4] = 2;
   board[4][3] = 1;
 
-  // const itCanPlaces = ItCanPlaces(board, x, y, current);
+  // 타켓 위치 찾기
+  let X = 0;
+  let Y = 0;
+
+  if (current === 1) {
+    // 흑돌기준으로
+    X = 3;
+    Y = 4;
+  } else if (current === 2) {
+    // 백돌 기준으로
+    X = 3;
+    Y = 3;
+  }
+
+  const targets = ItCanPlaces(board, X, Y, current);
 
   return (
     <BackBoard>
@@ -46,7 +61,7 @@ const GothelloBoard: React.FC = () => {
               x={colIndex}
               y={rowIndex}
               stone={value === 0 ? current : value}
-              isTarget={value === 5 ? true : false}
+              isTarget={targets[rowIndex][colIndex]}
             />
           ))
         )}

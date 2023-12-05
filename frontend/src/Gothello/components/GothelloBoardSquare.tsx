@@ -28,7 +28,6 @@ const Button = styled.button`
     height: 1rem;
   }
 `;
-/** Props  */
 /** Square 상태 종류 :
  * 크기  size
  * 좌표 값 x , y
@@ -66,18 +65,16 @@ const GothelloBoardSquare = ({
 
   // is can put State 변경
   const putStone = () => {
-    if (stone !== 0 && isTarget && board[y][x] !== undefined) {
+    if (stone !== 0 && isCanPut && board[y][x] !== undefined) {
       board[y][x] = stone;
-
-      isTarget = !isTarget;
-
+      setIsCanPut((prev) => !prev);
       if (stone === 1) setCurrent(2);
       else setCurrent(1);
     }
   };
   // 돌 이미지 출력
   const renderStone = () => {
-    console.log("돌 출력");
+    if (isCanPut) return;
     switch (stone) {
       case 0:
         return null;
@@ -89,14 +86,26 @@ const GothelloBoardSquare = ({
   };
   // 타겟 출력
   const renderTarget = () => {
-    return <img src={target} alt="target" />;
+    return <img src={target} alt="target" width="50px" height="50px" />;
   };
 
-  return (
-    <Button size={size} onClick={putStone} className={id}>
-      {isTarget ? renderTarget() : renderStone()}
-    </Button>
-  );
+  const Render = () => {
+    if (isTarget) {
+      return (
+        <Button size={size} onClick={putStone} className={id}>
+          {renderTarget()}
+        </Button>
+      );
+    } else {
+      return (
+        <Button size={size} className={id}>
+          {renderStone()}
+        </Button>
+      );
+    }
+  };
+
+  return <div>{Render()}</div>;
 };
 
 export default GothelloBoardSquare;

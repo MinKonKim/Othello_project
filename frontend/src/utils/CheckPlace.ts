@@ -10,13 +10,15 @@ export const ItCanPlaces = (
   x: number,
   y: number,
   currentStone: number
-): Coordinate[] => {
-  const result: Coordinate[] = [];
+): boolean[][] => {
+  const result: boolean[][] = Array.from({ length: 8 }, () =>
+    Array(8).fill(false)
+  );
   const visited = Array.from({ length: 8 }, () => Array(8).fill(false));
   //현재 좌표값 : x ,y  :매개변수
   /** 현재 돌의 값을 기준으로 탐색해야함
-   *  둘 자리가 있으면(== 사이에 반대 값의 돌이 있을 경우) 해당 자리의 board 값을 5로 만들자
-   *  or 좌표값을 추출해보자
+   *  둘 자리가 있으면(== 사이에 반대 값의 돌이 있을 경우) 해당자리 값 true로 변환
+   *  result[][] = 현재 돌을 놓을 수 있는 자리들을 보여주는 matrix 이다.
    */
   // dx: Direction X  dy: Driection Y   / nx : Near X  ny: Near Y
 
@@ -45,19 +47,20 @@ export const ItCanPlaces = (
         if (board[ny][nx] === 0) {
           if (hasOpposite) {
             // 0인데 오는길에 oppsite 있었음!
-            temp = { x: nx, y: ny };
-            result.push(temp);
+            result[ny][nx] = true; // 해당자리 true 표시
           }
           break;
-        } else if (board[ny][nx] === currentStone) {
+        }
+
+        if (board[ny][nx] === currentStone) {
           //같은 색이면 stack에 추가
           temp = { x: nx, y: ny };
           stack.push(temp);
+          visited[ny][nx] = true;
         } else if (board[ny][nx] === opposite) {
-          // 반대편 색이면
+          // 반대 색이면
           hasOpposite = true;
         }
-        visited[ny][nx] = true; //방문 체크
 
         nx += dx;
         ny += dy;
