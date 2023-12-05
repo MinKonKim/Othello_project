@@ -1,4 +1,4 @@
-import { DirX, DirY } from "./GlobalDirection";
+import { DirX, DirY } from "./Global";
 
 export interface Coordinate {
   x: number;

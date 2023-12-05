@@ -1,8 +1,11 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import GothelloBoardSquare from "./GothelloBoardSquare";
 import useStoneStore from "../../stores/useStoneStore";
 import { ItCanPlaces } from "../../utils/CheckPlace";
+import { OthelloRuleCheck } from "./../../utils/OthelloRuleCheck";
+import { FindStoneIdx, Opposite } from "../../utils/Global";
 
 const BackBoard = styled.div`
   display: flex;
@@ -38,17 +41,16 @@ const GothelloBoard: React.FC = () => {
   let X = 0;
   let Y = 0;
 
-  if (current === 1) {
-    // 흑돌기준으로
-    X = 3;
-    Y = 4;
-  } else if (current === 2) {
-    // 백돌 기준으로
-    X = 3;
-    Y = 3;
-  }
+  // 서칭을 할 돌 기준 잡기
+  const keystone = FindStoneIdx(board, current);
+  X = keystone.x;
+  Y = keystone.y;
 
   const targets = ItCanPlaces(board, X, Y, current);
+  const flipPoints = OthelloRuleCheck(board, X, Y, Opposite(current));
+  useEffect(() => {
+    console.log(board);
+  }, [current]);
 
   return (
     <BackBoard>
@@ -57,11 +59,13 @@ const GothelloBoard: React.FC = () => {
           row.map((value, colIndex) => (
             // 버튼 크기, 좌표값, 현재 돌  넘겨준다.
             <GothelloBoardSquare
+              key={`${rowIndex}-${colIndex}`}
               size={SQUARE_SIZE}
               x={colIndex}
               y={rowIndex}
               stone={value === 0 ? current : value}
               isTarget={targets[rowIndex][colIndex]}
+              isFlip={flipPoints[rowIndex][colIndex]}
             />
           ))
         )}

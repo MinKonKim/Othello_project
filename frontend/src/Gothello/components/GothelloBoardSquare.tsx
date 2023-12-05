@@ -2,9 +2,11 @@ import styled from "@emotion/styled";
 import blackStone from "../../assets/blackStone.svg";
 import whiteStone from "../../assets/whiteStone.svg";
 import target from "../../assets/target.svg";
-import React, { useState } from "react";
+import { useState } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
+import uselatestPoint from "./../../stores/uselatestPoint";
+import { Opposite } from "../../utils/Global";
 
 /** css  */
 const Button = styled.button`
@@ -40,6 +42,7 @@ interface GothelloBoardSquareProps {
   y: number;
   stone: number;
   isTarget: boolean;
+  isFlip: boolean;
 }
 
 const GothelloBoardSquare = ({
@@ -48,6 +51,7 @@ const GothelloBoardSquare = ({
   y,
   stone,
   isTarget,
+  isFlip,
 }: GothelloBoardSquareProps) => {
   const id = (x + 1).toString() + "-" + (y + 1).toString();
 
@@ -55,6 +59,7 @@ const GothelloBoardSquare = ({
 
   const { board } = useBoardStore();
   const { setCurrent } = useStoneStore();
+  const { setlatestX, setlatestY } = uselatestPoint();
 
   // 초기상태
   if ((id === "4-5" || id === "5-4") && isCanPut) {
@@ -63,11 +68,31 @@ const GothelloBoardSquare = ({
     setIsCanPut((prevState) => !prevState);
   }
 
+  if (isFlip) {
+    stone = Opposite(stone);
+    board[y][x] = stone;
+  }
+  // 돌 뒤집기
+  // const FilpStone = (flipped: boolean[][]) => {
+  //   const opposite = current === 1 ? 2 : 1;
+  //   for (let i = 0; i < 8; i++) {
+  //     for (let j = 0; j < 8; j++) {
+  //       if (flipped[i][j]) {
+  //         board[i][j] = opposite;
+  //       }
+  //     }
+  //   }
+  // };
+
   // is can put State 변경
   const putStone = () => {
     if (stone !== 0 && isCanPut && board[y][x] !== undefined) {
       board[y][x] = stone;
       setIsCanPut((prev) => !prev);
+
+      setlatestX(x);
+      setlatestY(y);
+
       if (stone === 1) setCurrent(2);
       else setCurrent(1);
     }
@@ -75,6 +100,7 @@ const GothelloBoardSquare = ({
   // 돌 이미지 출력
   const renderStone = () => {
     if (isCanPut) return;
+
     switch (stone) {
       case 0:
         return null;
