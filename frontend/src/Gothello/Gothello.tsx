@@ -2,7 +2,6 @@ import React from "react";
 import Background from "../components/background";
 import GothelloBoard from "./components/GothelloBoard";
 import CurrentPlayer from "./components/CurrentPlayer";
-import useStoneStore from "../stores/Stone";
 
 const Gothello: React.FC = () => {
   return (

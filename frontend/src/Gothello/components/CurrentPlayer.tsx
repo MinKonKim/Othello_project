@@ -1,5 +1,5 @@
 import React from "react";
-import useStoneStore from "../../stores/Stone";
+import useStoneStore from "../../stores/useStoneStore";
 
 const CurrentPlayer: React.FC = () => {
   const { current } = useStoneStore();

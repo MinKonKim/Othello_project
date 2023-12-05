@@ -1,68 +1,57 @@
 import styled from "@emotion/styled";
-import useBoardStore from "../../stores/gameBoardStore";
+import useBoardStore from "../../stores/useBoardStore";
 import GothelloBoardSquare from "./GothelloBoardSquare";
-import useStoneStore from "../../stores/Stone";
+import useStoneStore from "../../stores/useStoneStore";
+import { ItCanPlaces } from "../../utils/CheckPlace";
 
-// const BoardContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(8, 1fr);
-//   grid-template-rows: repeat(8, 1fr);
-//   gap: 2px;
-// `;
+const BackBoard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30rem;
+  height: 30rem;
+  background-color: black;
+  z-index: -50;
+`;
 
-const SQUARE_SIZE = 40;
+const BoardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 2px;
+`;
 
-// 배열/ 행 / 열 / 값
-// function updateBoardValue(
-//   board: number[][],
-//   rowIndex: number,
-//   columnIndex: number,
-//   newValue: number
-// ) {
-//   const newBoard = board.map((row, rIndex) => {
-//     if (rIndex == rowIndex) {
-//       return row.map((cell, cIndex) => {
-//         if (cIndex == columnIndex) {
-//           return newValue;
-//         }
-//         return cell;
-//       });
-//     }
-//     return row;
-//   });
-//   return { board: newBoard };
-// }
+const SQUARE_SIZE = "3.5rem";
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
 const GothelloBoard: React.FC = () => {
   const { board } = useBoardStore();
   const { current } = useStoneStore();
+  // 초기값 지정
+  board[3][3] = 2;
+  board[3][4] = 1;
+  board[4][4] = 2;
+  board[4][3] = 1;
 
-  const UpdateBoard = (x: number, y: number, value: number) => {
-    if (board[y][x] === 0 && board[y] !== undefined) {
-      board[y][x] == value;
-    }
-  };
+  // const itCanPlaces = ItCanPlaces(board, x, y, current);
+
   return (
-    <table>
-      <tbody>
-        {board.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <td key={cellIndex}>
-                <GothelloBoardSquare
-                  size={SQUARE_SIZE}
-                  x={cellIndex}
-                  y={rowIndex}
-                  stone={board[rowIndex][cellIndex]}
-                  // isCanPut={cell > 0 ? false : true}
-                />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <BackBoard>
+      <BoardContainer>
+        {board.map((row, rowIndex) =>
+          row.map((value, colIndex) => (
+            // 버튼 크기, 좌표값, 현재 돌  넘겨준다.
+            <GothelloBoardSquare
+              size={SQUARE_SIZE}
+              x={colIndex}
+              y={rowIndex}
+              stone={value === 0 ? current : value}
+              isTarget={value === 5 ? true : false}
+            />
+          ))
+        )}
+      </BoardContainer>
+    </BackBoard>
   );
 };
 
