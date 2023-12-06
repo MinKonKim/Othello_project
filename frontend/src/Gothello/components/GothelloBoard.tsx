@@ -4,8 +4,9 @@ import useBoardStore from "../../stores/useBoardStore";
 import GothelloBoardSquare from "./GothelloBoardSquare";
 import useStoneStore from "../../stores/useStoneStore";
 import { ItCanPlaces } from "../../utils/CheckPlace";
-import { OthelloRuleCheck } from "./../../utils/OthelloRuleCheck";
-import { FindStoneIdx, Opposite } from "../../utils/Global";
+import { FindStoneIdx, Opposite, PrintStoneState } from "../../utils/Global";
+import { Flip } from "../../utils/Flip";
+import uselatestPoint from "../../stores/uselatestPoint";
 
 const BackBoard = styled.div`
   display: flex;
@@ -28,8 +29,11 @@ const SQUARE_SIZE = "3.5rem";
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
 const GothelloBoard: React.FC = () => {
-  const { board } = useBoardStore();
+  const { board, setBoard } = useBoardStore();
   const { current } = useStoneStore();
+  const { latestX, latestY } = uselatestPoint();
+
+  const opposite = Opposite(current);
 
   // 초기값 지정
   board[3][3] = 2;
@@ -37,20 +41,23 @@ const GothelloBoard: React.FC = () => {
   board[4][4] = 2;
   board[4][3] = 1;
 
-  // 타켓 위치 찾기
-  let X = 0;
-  let Y = 0;
+  // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
+  const flipBoard = Flip(board, latestX, latestY, opposite);
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      if (flipBoard[i][j]) {
+        board[i][j] = opposite;
+      }
+    }
+  }
 
-  // 서칭을 할 돌 기준 잡기
+  // 타겟서칭을 할 돌 기준 잡기
   const keystone = FindStoneIdx(board, current);
-  X = keystone.x;
-  Y = keystone.y;
+  let X = keystone.x;
+  let Y = keystone.y;
 
+  // 타켓 표시를 위한 좌표 찾기
   const targets = ItCanPlaces(board, X, Y, current);
-  const flipPoints = OthelloRuleCheck(board, X, Y, Opposite(current));
-  useEffect(() => {
-    console.log(board);
-  }, [current]);
 
   return (
     <BackBoard>
@@ -65,7 +72,7 @@ const GothelloBoard: React.FC = () => {
               y={rowIndex}
               stone={value === 0 ? current : value}
               isTarget={targets[rowIndex][colIndex]}
-              isFlip={flipPoints[rowIndex][colIndex]}
+              isFlip={flipBoard[rowIndex][colIndex]}
             />
           ))
         )}

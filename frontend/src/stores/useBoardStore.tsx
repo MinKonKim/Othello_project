@@ -1,28 +1,21 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 
 interface BoardStore {
   board: number[][];
-  setBoard(array: number[][]): void;
+  setBoard: (newBoard: number[][]) => void;
 }
 
-const useBoardStore = create<BoardStore>()(
-  persist(
-    (set) => ({
-      board: Array.from({ length: 8 }, () =>
-        Array.from({ length: 8 }, () => 0)
-      ),
+const initialState: BoardStore = {
+  board: Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => 0)),
+  setBoard: () => {},
+};
 
-      setBoard: (array) =>
-        set(() => ({
-          board: array,
-        })),
+const useBoardStore = create<BoardStore>()((set) => ({
+  ...initialState,
+  setBoard: (newBoard) =>
+    set({
+      board: newBoard,
     }),
-    {
-      name: "board-store",
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
-);
+}));
 
 export default useBoardStore;

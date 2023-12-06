@@ -1,7 +1,7 @@
-import { Coordinate } from "./CheckPlace";
-import { DirX, DirY, Opposite } from "./Global";
+import { Coordinate } from "../models/Coordinate";
+import { DirX, DirY, Opposite, PrintStoneState } from "./Global";
 
-export const OthelloRuleCheck = (
+export const Flip = (
   board: number[][],
   x: number,
   y: number,
@@ -11,6 +11,9 @@ export const OthelloRuleCheck = (
     Array(8).fill(false)
   );
   const opposite = Opposite(current);
+  let dump: Coordinate[] = [];
+  // console.log("현재 돌 : " + PrintStoneState(current));
+  // console.log("뒤집어야 할 돌 : " + PrintStoneState(opposite));
 
   for (let i = 0; i < 8; i++) {
     let dx = DirX[i];
@@ -19,20 +22,21 @@ export const OthelloRuleCheck = (
     let nx = x + dx;
     let ny = y + dy;
 
-    let dump: Coordinate[] = [];
+    let temp: Coordinate[] = [];
     while (nx >= 0 && ny >= 0 && nx < 8 && ny < 8) {
       if (board[ny][nx] === current) {
-        dump.forEach((coord) => {
-          result[coord.y][coord.x] = true;
-        });
+        dump = dump.concat(temp);
         break;
       } else if (board[ny][nx] === opposite) {
-        dump.push({ x: nx, y: ny });
+        temp.push({ x: nx, y: ny });
       }
       nx += dx;
       ny += dy;
     }
   }
+  dump.forEach((element) => {
+    result[element.y][element.y] = true;
+  });
 
   return result;
 };

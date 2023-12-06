@@ -1,9 +1,5 @@
-import { DirX, DirY } from "./Global";
-
-export interface Coordinate {
-  x: number;
-  y: number;
-}
+import { Coordinate } from "../models/Coordinate";
+import { DirX, DirY, Opposite } from "./Global";
 
 export const ItCanPlaces = (
   board: number[][],
@@ -26,7 +22,7 @@ export const ItCanPlaces = (
   let currentCoord: Coordinate = { x: x, y: y };
   stack.push(currentCoord);
 
-  const opposite = currentStone == 1 ? 2 : 1;
+  const opposite = Opposite(currentStone);
   while (stack.length > 0) {
     let curr = stack.pop();
     if (curr === undefined) break;

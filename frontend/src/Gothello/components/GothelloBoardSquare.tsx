@@ -2,13 +2,14 @@ import styled from "@emotion/styled";
 import blackStone from "../../assets/blackStone.svg";
 import whiteStone from "../../assets/whiteStone.svg";
 import target from "../../assets/target.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "./../../stores/uselatestPoint";
 import { Opposite } from "../../utils/Global";
 
 /** css  */
+
 const Button = styled.button`
   background-color: rgba(0, 99, 0, 1);
   display: flex;
@@ -56,7 +57,7 @@ const GothelloBoardSquare = ({
   const id = (x + 1).toString() + "-" + (y + 1).toString();
 
   const [isCanPut, setIsCanPut] = useState(true); // 여기가 돌을 놓을 수 있는 자리인가? 에 관한 State
-
+  const [isTransition, setIsTransition] = useState(false);
   const { board } = useBoardStore();
   const { setCurrent } = useStoneStore();
   const { setlatestX, setlatestY } = uselatestPoint();
@@ -68,21 +69,12 @@ const GothelloBoardSquare = ({
     setIsCanPut((prevState) => !prevState);
   }
 
-  if (isFlip) {
-    stone = Opposite(stone);
-    board[y][x] = stone;
-  }
   // 돌 뒤집기
-  // const FilpStone = (flipped: boolean[][]) => {
-  //   const opposite = current === 1 ? 2 : 1;
-  //   for (let i = 0; i < 8; i++) {
-  //     for (let j = 0; j < 8; j++) {
-  //       if (flipped[i][j]) {
-  //         board[i][j] = opposite;
-  //       }
-  //     }
-  //   }
-  // };
+
+  useEffect(() => {
+    setIsTransition((prev) => !prev);
+    console.log(id + " 의 transition값:" + isTransition);
+  }, [isFlip]);
 
   // is can put State 변경
   const putStone = () => {
