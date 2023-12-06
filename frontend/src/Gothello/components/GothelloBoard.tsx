@@ -36,17 +36,20 @@ const GothelloBoard: React.FC = () => {
   const opposite = Opposite(current);
 
   // 초기값 지정
-  board[3][3] = 2;
-  board[3][4] = 1;
-  board[4][4] = 2;
-  board[4][3] = 1;
+  useEffect(() => {
+    board[3][3] = 2;
+    board[3][4] = 1;
+    board[4][4] = 2;
+    board[4][3] = 1;
+  }, []);
 
   // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
-  const flipBoard = Flip(board, latestX, latestY, opposite);
+  let flipBoard = Flip(board, latestX, latestY, opposite);
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       if (flipBoard[i][j]) {
         board[i][j] = opposite;
+        console.log("뒤집히는 방향 :" + j, i);
       }
     }
   }
@@ -59,6 +62,7 @@ const GothelloBoard: React.FC = () => {
   // 타켓 표시를 위한 좌표 찾기
   const targets = ItCanPlaces(board, X, Y, current);
 
+  console.log(board);
   return (
     <BackBoard>
       <BoardContainer>

@@ -1,5 +1,5 @@
 import { Coordinate } from "../models/Coordinate";
-import { DirX, DirY, Opposite, PrintStoneState } from "./Global";
+import { DirX, DirY, Opposite } from "./Global";
 
 export const Flip = (
   board: number[][],
@@ -7,13 +7,11 @@ export const Flip = (
   y: number,
   current: number
 ): boolean[][] => {
-  const result: boolean[][] = Array.from({ length: 8 }, () =>
+  let result: boolean[][] = Array.from({ length: 8 }, () =>
     Array(8).fill(false)
   );
   const opposite = Opposite(current);
   let dump: Coordinate[] = [];
-  // console.log("현재 돌 : " + PrintStoneState(current));
-  // console.log("뒤집어야 할 돌 : " + PrintStoneState(opposite));
 
   for (let i = 0; i < 8; i++) {
     let dx = DirX[i];
@@ -24,18 +22,18 @@ export const Flip = (
 
     let temp: Coordinate[] = [];
     while (nx >= 0 && ny >= 0 && nx < 8 && ny < 8) {
-      if (board[ny][nx] === current) {
+      if (board[ny][nx] === current && temp.length > 0) {
         dump = dump.concat(temp);
         break;
       } else if (board[ny][nx] === opposite) {
-        temp.push({ x: nx, y: ny });
+        temp.push({ y: ny, x: nx });
       }
       nx += dx;
       ny += dy;
     }
   }
   dump.forEach((element) => {
-    result[element.y][element.y] = true;
+    result[element.y][element.x] = true;
   });
 
   return result;

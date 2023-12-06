@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "./../../stores/uselatestPoint";
-import { Opposite } from "../../utils/Global";
+import { Opposite, PrintStoneState } from "../../utils/Global";
 
 /** css  */
 
@@ -69,13 +69,6 @@ const GothelloBoardSquare = ({
     setIsCanPut((prevState) => !prevState);
   }
 
-  // 돌 뒤집기
-
-  useEffect(() => {
-    setIsTransition((prev) => !prev);
-    console.log(id + " 의 transition값:" + isTransition);
-  }, [isFlip]);
-
   // is can put State 변경
   const putStone = () => {
     if (stone !== 0 && isCanPut && board[y][x] !== undefined) {
@@ -84,7 +77,7 @@ const GothelloBoardSquare = ({
 
       setlatestX(x);
       setlatestY(y);
-
+      isTarget = !isTarget;
       if (stone === 1) setCurrent(2);
       else setCurrent(1);
     }
