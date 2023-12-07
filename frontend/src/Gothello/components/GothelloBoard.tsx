@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import GothelloBoardSquare from "./GothelloBoardSquare";
 import useStoneStore from "../../stores/useStoneStore";
 import { ItCanPlaces } from "../../utils/CheckPlace";
-import { FindStoneIdx, Opposite, PrintStoneState } from "../../utils/Global";
+import { FindStoneIdx, Opposite } from "../../utils/Global";
 import { Flip } from "../../utils/Flip";
 import uselatestPoint from "../../stores/uselatestPoint";
 
