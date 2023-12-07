@@ -53,6 +53,7 @@ export const ItCanPlaces = (
           temp = { x: nx, y: ny };
           stack.push(temp);
           visited[ny][nx] = true;
+          break;
         } else if (board[ny][nx] === opposite) {
           // 반대 색이면
           hasOpposite = true;

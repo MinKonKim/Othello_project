@@ -43,7 +43,6 @@ interface GothelloBoardSquareProps {
   y: number;
   stone: number;
   isTarget: boolean;
-  isFlip: boolean;
 }
 
 const GothelloBoardSquare = ({
@@ -52,32 +51,35 @@ const GothelloBoardSquare = ({
   y,
   stone,
   isTarget,
-  isFlip,
 }: GothelloBoardSquareProps) => {
   const id = (x + 1).toString() + "-" + (y + 1).toString();
 
   const [isCanPut, setIsCanPut] = useState(true); // 여기가 돌을 놓을 수 있는 자리인가? 에 관한 State
-  const [isTransition, setIsTransition] = useState(false);
-  const { board } = useBoardStore();
+  const { board, setBoard } = useBoardStore();
   const { setCurrent } = useStoneStore();
   const { setlatestX, setlatestY } = uselatestPoint();
 
   // 초기상태
   if ((id === "4-5" || id === "5-4") && isCanPut) {
-    setIsCanPut((prevState) => !prevState);
+    setIsCanPut(false);
   } else if ((id === "4-4" || id === "5-5") && isCanPut) {
-    setIsCanPut((prevState) => !prevState);
+    setIsCanPut(false);
   }
 
   // is can put State 변경
   const putStone = () => {
     if (stone !== 0 && isCanPut && board[y][x] !== undefined) {
-      board[y][x] = stone;
+      setBoard((board) => {
+        board[y][x] = stone;
+        return board;
+      });
       setIsCanPut((prev) => !prev);
 
+      //최근 클릭한 좌표 업데이트
       setlatestX(x);
       setlatestY(y);
-      isTarget = !isTarget;
+
+      // 클릭했으면 순서 변경
       if (stone === 1) setCurrent(2);
       else setCurrent(1);
     }
