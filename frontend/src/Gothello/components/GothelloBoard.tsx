@@ -29,7 +29,7 @@ const SQUARE_SIZE = "3.5rem";
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
 const GothelloBoard: React.FC = () => {
-  const { board, setBoard } = useBoardStore();
+  const { board } = useBoardStore();
   const { current } = useStoneStore();
   const { latestX, latestY } = uselatestPoint();
 
