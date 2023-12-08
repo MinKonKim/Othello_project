@@ -35,6 +35,7 @@ export const Flip = (
         dump = dump.concat(temp);
         break;
       } else if (board[ny][nx] === opposite) {
+        console.log("뒤집힐 돌 : " + nx, ny + "현재 방향 : " + dx, dy);
         temp.push({ y: ny, x: nx });
       }
       nx += dx;

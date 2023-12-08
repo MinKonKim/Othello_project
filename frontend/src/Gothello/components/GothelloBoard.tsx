@@ -6,6 +6,9 @@ import { ItCanPlaces } from "../../utils/CheckPlace";
 import { FindStoneIdx, Opposite } from "../../utils/Global";
 import { Flip } from "../../utils/Flip";
 import uselatestPoint from "../../stores/uselatestPoint";
+import { useState } from "react";
+import Modal from "../../components/modal";
+import PassButton from "./PassButton";
 
 const BackBoard = styled.div`
   display: flex;
@@ -29,9 +32,11 @@ const SQUARE_SIZE = "3.5rem";
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
 const GothelloBoard: React.FC = () => {
   const { board } = useBoardStore();
-  const { current } = useStoneStore();
+  const { current, stonecount } = useStoneStore();
   const { latestX, latestY } = uselatestPoint();
 
+  const [isCanMove, setisCanMove] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const opposite = Opposite(current);
 
   // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
@@ -52,24 +57,36 @@ const GothelloBoard: React.FC = () => {
   // 타켓 표시를 위한 좌표 찾기
   const targets = ItCanPlaces(board, X, Y, current);
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  if (stonecount == 64) {
+    setIsModalOpen(true);
+  }
+
   return (
-    <BackBoard>
-      <BoardContainer>
-        {board.map((row, rowIndex) =>
-          row.map((value, colIndex) => (
-            // 버튼 크기, 좌표값, 현재 돌  넘겨준다.
-            <GothelloBoardSquare
-              key={`${rowIndex}-${colIndex}`}
-              size={SQUARE_SIZE}
-              x={colIndex}
-              y={rowIndex}
-              stone={value === 0 ? current : value}
-              isTarget={targets[rowIndex][colIndex]}
-            />
-          ))
-        )}
-      </BoardContainer>
-    </BackBoard>
+    <div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <BackBoard>
+        <BoardContainer>
+          {board.map((row, rowIndex) =>
+            row.map((value, colIndex) => (
+              // 버튼 크기, 좌표값, 현재 돌  넘겨준다.
+              <GothelloBoardSquare
+                key={`${rowIndex}-${colIndex}`}
+                size={SQUARE_SIZE}
+                x={colIndex}
+                y={rowIndex}
+                stone={value === 0 ? current : value}
+                isTarget={targets[rowIndex][colIndex]}
+              />
+            ))
+          )}
+        </BoardContainer>
+      </BackBoard>
+      <PassButton isVisible={isCanMove} />
+    </div>
   );
 };
 

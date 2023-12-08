@@ -1,15 +1,22 @@
 import { create } from "zustand";
 
 interface Stone {
+  stonecount: number;
   current: number;
-  setCurrent(next: number): void;
+  setCurrent(stone: number): void;
+  setStoneCount(cnt: number): void;
 }
 
 const useStoneStore = create<Stone>()((set) => ({
   current: 1,
-  setCurrent: (next: number) =>
+  stonecount: 4, // 처음 4개
+  setCurrent: (stone: number) =>
     set(() => ({
-      current: next,
+      current: stone,
+    })),
+  setStoneCount: (cnt: number) =>
+    set(() => ({
+      stonecount: cnt,
     })),
 }));
 export default useStoneStore;

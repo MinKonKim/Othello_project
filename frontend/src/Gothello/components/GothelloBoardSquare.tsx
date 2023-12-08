@@ -2,11 +2,10 @@ import styled from "@emotion/styled";
 import blackStone from "../../assets/blackStone.svg";
 import whiteStone from "../../assets/whiteStone.svg";
 import target from "../../assets/target.svg";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "./../../stores/uselatestPoint";
-import { Opposite, PrintStoneState } from "../../utils/Global";
 
 /** css  */
 
@@ -56,7 +55,7 @@ const GothelloBoardSquare = ({
 
   const [isCanPut, setIsCanPut] = useState(true); // 여기가 돌을 놓을 수 있는 자리인가? 에 관한 State
   const { board, setBoard } = useBoardStore();
-  const { setCurrent } = useStoneStore();
+  const { stonecount, setCurrent, setStoneCount } = useStoneStore();
   const { setlatestX, setlatestY } = uselatestPoint();
 
   // 초기상태
@@ -78,8 +77,9 @@ const GothelloBoardSquare = ({
       //최근 클릭한 좌표 업데이트
       setlatestX(x);
       setlatestY(y);
+      setStoneCount(stonecount + 1);
 
-      // 클릭했으면 순서 변경
+      //순서 변경
       if (stone === 1) setCurrent(2);
       else setCurrent(1);
     }
