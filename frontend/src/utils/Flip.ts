@@ -30,16 +30,20 @@ export const Flip = (
     while (nx >= 0 && ny >= 0 && nx < 8 && ny < 8) {
       if (board[ny][nx] === 0) {
         break;
-      }
-      if (board[ny][nx] === stone && temp.length > 0) {
-        dump = dump.concat(temp);
+      } else if (board[ny][nx] === stone) {
+        if (temp.length > 0) {
+          dump = dump.concat(temp);
+        }
         break;
       } else if (board[ny][nx] === opposite) {
         console.log("뒤집힐 돌 : " + nx, ny + "현재 방향 : " + dx, dy);
+        console.log("-----------------------------------------------");
         temp.push({ y: ny, x: nx });
+        if (board[ny + dy][nx + dx] === stone) {
+        }
       }
-      nx += dx;
       ny += dy;
+      nx += dx;
     }
   }
   dump.forEach((element) => {

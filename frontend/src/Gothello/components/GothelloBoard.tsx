@@ -1,14 +1,17 @@
 import styled from "@emotion/styled";
+
 import useBoardStore from "../../stores/useBoardStore";
-import GothelloBoardSquare from "./GothelloBoardSquare";
 import useStoneStore from "../../stores/useStoneStore";
+import uselatestPoint from "../../stores/uselatestPoint";
+
+import { useState } from "react";
+import { Flip } from "../../utils/Flip";
 import { ItCanPlaces } from "../../utils/CheckPlace";
 import { FindStoneIdx, Opposite } from "../../utils/Global";
-import { Flip } from "../../utils/Flip";
-import uselatestPoint from "../../stores/uselatestPoint";
-import { useState } from "react";
-import Modal from "../../components/modal";
+
 import PassButton from "./PassButton";
+import Modal from "../../components/Modal";
+import GothelloBoardSquare from "./GothelloBoardSquare";
 
 const BackBoard = styled.div`
   display: flex;
@@ -28,6 +31,10 @@ const BoardContainer = styled.div`
 `;
 
 const SQUARE_SIZE = "3.5rem";
+
+interface GothelloBoardProps {
+  board: number[][];
+}
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
 const GothelloBoard: React.FC = () => {
