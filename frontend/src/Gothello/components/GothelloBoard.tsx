@@ -1,16 +1,12 @@
 import styled from "@emotion/styled";
 
-import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "../../stores/uselatestPoint";
 
-import { useState } from "react";
 import { Flip } from "../../utils/Flip";
 import { ItCanPlaces } from "../../utils/CheckPlace";
 import { FindStoneIdx, Opposite } from "../../utils/Global";
 
-import PassButton from "./PassButton";
-import Modal from "../../components/Modal";
 import GothelloBoardSquare from "./GothelloBoardSquare";
 
 const BackBoard = styled.div`
@@ -37,13 +33,10 @@ interface GothelloBoardProps {
 }
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
-const GothelloBoard: React.FC = () => {
-  const { board } = useBoardStore();
-  const { current, stonecount } = useStoneStore();
+const GothelloBoard = ({ board }: GothelloBoardProps) => {
+  const { current } = useStoneStore();
   const { latestX, latestY } = uselatestPoint();
 
-  const [isCanMove, setisCanMove] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const opposite = Opposite(current);
 
   // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
@@ -64,17 +57,8 @@ const GothelloBoard: React.FC = () => {
   // 타켓 표시를 위한 좌표 찾기
   const targets = ItCanPlaces(board, X, Y, current);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  if (stonecount == 64) {
-    setIsModalOpen(true);
-  }
-
   return (
     <div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
       <BackBoard>
         <BoardContainer>
           {board.map((row, rowIndex) =>
@@ -92,7 +76,6 @@ const GothelloBoard: React.FC = () => {
           )}
         </BoardContainer>
       </BackBoard>
-      <PassButton isVisible={isCanMove} />
     </div>
   );
 };

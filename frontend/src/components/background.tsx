@@ -5,7 +5,7 @@ const Background = () => {
   return (
     <div
       css={{
-        opacity: 0.4,
+        opacity: 0.55,
         mixBlendMode: "darken",
         position: "fixed",
         top: 0,

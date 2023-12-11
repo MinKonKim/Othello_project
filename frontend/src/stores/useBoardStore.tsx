@@ -2,6 +2,8 @@ import { create } from "zustand";
 
 interface BoardStore {
   board: number[][];
+  isCanMove: boolean;
+  setIsCanMove: (move: boolean) => void;
   setBoard: (newBoard: (prevBoard: number[][]) => number[][]) => void;
 }
 
@@ -16,6 +18,8 @@ const useBoardStore = create<BoardStore>()((set) => ({
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ],
+  isCanMove: false,
+  setIsCanMove: (move) => set(() => ({ isCanMove: move })),
   setBoard: (newBoard) => set((state) => ({ board: newBoard(state.board) })),
 }));
 

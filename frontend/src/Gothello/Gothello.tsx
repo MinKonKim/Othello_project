@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Background from "../components/background";
+import Modal from "../components/Modal";
+
 import GothelloBoard from "./components/GothelloBoard";
 import CurrentPlayer from "./components/CurrentPlayer";
 import ScoreBoard from "./components/ScoreBoard";
+import PassButton from "./components/PassButton";
+
 import useBoardStore from "../stores/useBoardStore";
-import useStoneStore from "../stores/useStoneStore";
-import { CountingStone } from "../utils/CountingStone";
 
 const Container = styled.div`
   display: flex;
@@ -29,29 +31,41 @@ const RightSection = styled.div`
 `;
 
 const Gothello: React.FC = () => {
-  const { board } = useBoardStore();
-  const { stonecount } = useStoneStore();
+  const { board, isCanMove, setIsCanMove } = useBoardStore();
+  /** 흑돌 백돌 카운팅 */
+  /**Modal State Setting */
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [whiteCount, setWhiteCount] = useState(2);
-  const [blackCount, setBlackCount] = useState(2);
+  const [passButtonVisible, setPassButtonVisible] = useState(false);
 
-  useEffect(() => {
-    setWhiteCount(CountingStone(board, 2));
-    setBlackCount(stonecount - whiteCount);
-  }, [stonecount]);
+  const handleModalState = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  /**PASS 버튼 클릭시 => 다음 턴으로 넘겨야 한다. */
+  const handleButtonState = () => {
+    setPassButtonVisible((prev) => !prev);
+  };
 
   return (
-    <Container>
-      <LeftSection>
-        <CurrentPlayer />
-        <GothelloBoard />
-      </LeftSection>
-      <CenterSection>
-        <Background />
-        <ScoreBoard wCount={whiteCount} bCount={blackCount} />
-      </CenterSection>
-      <RightSection></RightSection>
-    </Container>
+    <>
+      <Background />
+      <Modal isOpen={isOpen} onClose={handleModalState} />
+      <Container>
+        <LeftSection>
+          <CurrentPlayer />
+          <GothelloBoard board={board} />
+          <ScoreBoard board={board} />
+        </LeftSection>
+        <CenterSection>
+          <PassButton
+            isVisible={passButtonVisible}
+            onClose={handleButtonState}
+          />
+        </CenterSection>
+        <RightSection></RightSection>
+      </Container>
+    </>
   );
 };
 

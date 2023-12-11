@@ -36,11 +36,13 @@ export const Flip = (
         }
         break;
       } else if (board[ny][nx] === opposite) {
-        console.log("뒤집힐 돌 : " + nx, ny + "현재 방향 : " + dx, dy);
-        console.log("-----------------------------------------------");
+        console.log(
+          "기준 돌 : " + x,
+          y + " | 뒤집힐 돌 : " + nx,
+          ny + " | 현재 방향 : " + dx,
+          dy
+        );
         temp.push({ y: ny, x: nx });
-        if (board[ny + dy][nx + dx] === stone) {
-        }
       }
       ny += dy;
       nx += dx;
