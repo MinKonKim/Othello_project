@@ -26,8 +26,8 @@ const Button = styled.button`
   }
 
   .stone {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 `;
 /** Square 상태 종류 :
@@ -92,14 +92,18 @@ const GothelloBoardSquare = ({
       case 0:
         return null;
       case 1:
-        return <img src={blackStone} alt="blackStone" />;
+        return (
+          <img src={blackStone} width="60rem" height="60rem" alt="blackStone" />
+        );
       case 2:
-        return <img src={whiteStone} alt="whiteStone" />;
+        return (
+          <img src={whiteStone} width="60rem" height="60rem" alt="whiteStone" />
+        );
     }
   };
   // 타겟 출력
   const renderTarget = () => {
-    return <img src={target} alt="target" width="50px" height="50px" />;
+    return <img src={target} alt="target" width="70rem" height="60rem" />;
   };
 
   const Render = () => {

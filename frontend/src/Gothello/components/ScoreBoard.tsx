@@ -7,12 +7,12 @@ import { CountingStone } from "../../utils/CountingStone";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
+  flex-direction: row;
 `;
 const Item = styled.span`
   display: flex;
   align-items: center;
+  margin-left: 15vh;
 `;
 const Image = styled.img`
   margin-right: 5px;

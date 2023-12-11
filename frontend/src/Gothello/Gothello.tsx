@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
 import Background from "../components/background";
@@ -10,6 +10,10 @@ import ScoreBoard from "./components/ScoreBoard";
 import PassButton from "./components/PassButton";
 
 import useBoardStore from "../stores/useBoardStore";
+import useStoneStore from "../stores/useStoneStore";
+import { ItCanPlaces } from "../utils/CheckPlace";
+import { FindStoneIdx } from "../utils/Global";
+import { IsCanMove } from "../utils/IsCanMove";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +23,8 @@ const Container = styled.div`
 
 const LeftSection = styled.div`
   flex: 1;
+  margin-right: 50px
+  flex-dirction: colum;
 `;
 const CenterSection = styled.div`
   flex: 1;
@@ -26,12 +32,18 @@ const CenterSection = styled.div`
 `;
 
 const RightSection = styled.div`
-  flex: 1;
-  text-align: right;
+display:felx
+felx-direction:colum;
+justify-content: flex-start;
+align-items: flex-end;
+`;
+const ButtonContainer = styled.div`
+  margin-top: 20px;
 `;
 
 const Gothello: React.FC = () => {
-  const { board, isCanMove, setIsCanMove } = useBoardStore();
+  const { board } = useBoardStore();
+  const { current, stonecount, setCurrent } = useStoneStore();
   /** 흑돌 백돌 카운팅 */
   /**Modal State Setting */
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +57,31 @@ const Gothello: React.FC = () => {
   /**PASS 버튼 클릭시 => 다음 턴으로 넘겨야 한다. */
   const handleButtonState = () => {
     setPassButtonVisible((prev) => !prev);
+    if (current === 1) setCurrent(2);
+    else setCurrent(1);
   };
+
+  // 타겟서칭을 할 돌 기준 잡기
+  const keystone = FindStoneIdx(board, current);
+  let X = keystone.x;
+  let Y = keystone.y;
+
+  // 타켓 표시를 위한 좌표 찾기
+  const targets = ItCanPlaces(board, X, Y, current);
+
+  // 돌을 놓을 수 있는 자리가 있는가?
+
+  useEffect(() => {
+    if (!IsCanMove(targets)) {
+      console.log("돌을 놓을 수 없습니다.");
+      // 가득 찼다면
+      if (stonecount === 64) {
+        setIsOpen(true);
+      } else {
+        setPassButtonVisible(true);
+      }
+    }
+  }, [current]);
 
   return (
     <>
@@ -54,16 +90,17 @@ const Gothello: React.FC = () => {
       <Container>
         <LeftSection>
           <CurrentPlayer />
-          <GothelloBoard board={board} />
+          <GothelloBoard board={board} targets={targets} />
           <ScoreBoard board={board} />
         </LeftSection>
         <CenterSection>
-          <PassButton
-            isVisible={passButtonVisible}
-            onClose={handleButtonState}
-          />
+          <ButtonContainer>
+            <PassButton
+              isVisible={passButtonVisible}
+              onClose={handleButtonState}
+            />
+          </ButtonContainer>
         </CenterSection>
-        <RightSection></RightSection>
       </Container>
     </>
   );

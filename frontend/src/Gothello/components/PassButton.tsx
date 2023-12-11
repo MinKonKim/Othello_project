@@ -8,8 +8,8 @@ interface PassButtonProps {
 
 const ButtonStyle = styled.button<{ isVisible: boolean }>`
   display: ${(props) => (props.isVisible ? "block" : "none")};
+  size: 5rem;
   cursor: pointer;
-  position: absolute;
   top: 10px;
   right: 10px;
   font-size: 20px;

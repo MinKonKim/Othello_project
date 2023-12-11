@@ -4,8 +4,7 @@ import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "../../stores/uselatestPoint";
 
 import { Flip } from "../../utils/Flip";
-import { ItCanPlaces } from "../../utils/CheckPlace";
-import { FindStoneIdx, Opposite } from "../../utils/Global";
+import { Opposite } from "../../utils/Global";
 
 import GothelloBoardSquare from "./GothelloBoardSquare";
 
@@ -13,27 +12,29 @@ const BackBoard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30rem;
-  height: 30rem;
+  width: 40rem;
+  height: 40rem;
   background-color: black;
   z-index: -50;
+  border-radius: 10px;
 `;
 
 const BoardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  gap: 2px;
+  gap: 0.2rem;
 `;
 
-const SQUARE_SIZE = "3.5rem";
+const SQUARE_SIZE = "4.5rem";
 
 interface GothelloBoardProps {
   board: number[][];
+  targets: boolean[][];
 }
 
 /** 흑돌 : 1 백돌 :2 없음 : 0 */
-const GothelloBoard = ({ board }: GothelloBoardProps) => {
+const GothelloBoard = ({ board, targets }: GothelloBoardProps) => {
   const { current } = useStoneStore();
   const { latestX, latestY } = uselatestPoint();
 
@@ -48,14 +49,6 @@ const GothelloBoard = ({ board }: GothelloBoardProps) => {
       }
     }
   }
-
-  // 타겟서칭을 할 돌 기준 잡기
-  const keystone = FindStoneIdx(board, current);
-  let X = keystone.x;
-  let Y = keystone.y;
-
-  // 타켓 표시를 위한 좌표 찾기
-  const targets = ItCanPlaces(board, X, Y, current);
 
   return (
     <div>
