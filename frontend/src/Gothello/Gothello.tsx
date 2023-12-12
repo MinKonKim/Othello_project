@@ -14,7 +14,7 @@ import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx } from "../utils/Global";
 import { IsCanMove } from "../utils/IsCanMove";
-
+//#region  CSS
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -40,11 +40,11 @@ align-items: flex-end;
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
-
+//#endregion
 const Gothello: React.FC = () => {
   const { board } = useBoardStore();
-  const { current, stonecount, setCurrent } = useStoneStore();
-  /** 흑돌 백돌 카운팅 */
+  const { current, whiteStone, blackStone, stonecount, setCurrent } =
+    useStoneStore();
   /**Modal State Setting */
   const [isOpen, setIsOpen] = useState(false);
 
@@ -86,7 +86,7 @@ const Gothello: React.FC = () => {
   return (
     <>
       <Background />
-      <Modal isOpen={isOpen} onClose={handleModalState} />
+      <Modal blackStone={blackStone} whiteStone={whiteStone} />
       <Container>
         <LeftSection>
           <CurrentPlayer />

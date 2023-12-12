@@ -6,7 +6,7 @@ const CurrentPlayer: React.FC = () => {
   let name = current === 1 ? "Black" : "White";
   return (
     <div>
-      <h2>현재 플레이어: {`${name}`}</h2>
+      <h2> Now Playing: {`${name}`}</h2>
     </div>
   );
 };

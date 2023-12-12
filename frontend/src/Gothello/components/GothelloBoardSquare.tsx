@@ -15,7 +15,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   border: solid 2px black;
-  border-radius: 0;
+  border-radius: 2px;
   margin: 0.5px;
 
   width: ${(props: { size: string }) => props.size};
