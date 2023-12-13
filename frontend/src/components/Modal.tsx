@@ -1,6 +1,7 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 //#region CSS
 const fadeIn = keyframes`
@@ -130,7 +131,9 @@ const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
               <p>Click the button to restart</p>
             </main>
             <footer>
-              <button onClick={toggleModal}>재시작</button>
+              <Link to="/">
+                <button onClick={toggleModal}>재시작</button>
+              </Link>
             </footer>
           </Section>
         </Modal>
