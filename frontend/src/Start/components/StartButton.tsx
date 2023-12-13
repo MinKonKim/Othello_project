@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-
+import { useNavigate } from "react-router-dom";
 const color = "#e3c39a";
 //#region  CSS
+
 const FifthButton = styled.button`
   border-color: ${color};
   border-radius: 5px;
@@ -39,7 +40,13 @@ const FifthButton = styled.button`
 //#endregion
 
 const StartButton: React.FC = () => {
-  return <FifthButton>StartButton</FifthButton>;
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate("/game");
+  };
+
+  return <FifthButton onClick={handleButtonClick}>StartButton</FifthButton>;
 };
 
 export default StartButton;
