@@ -1,4 +1,4 @@
-import { keyframes, css } from "@emotion/react";
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
@@ -127,7 +127,7 @@ const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
             <header></header>
             <main>
               <h1>Winner : {winner}</h1>
-              <p>Click the button to close the modal.</p>
+              <p>Click the button to restart</p>
             </main>
             <footer>
               <button onClick={toggleModal}>재시작</button>

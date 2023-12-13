@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import Background from "../components/background";
@@ -13,7 +13,6 @@ import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx } from "../utils/Global";
-import { IsCanMove } from "../utils/IsCanMove";
 //#region  CSS
 const Container = styled.div`
   display: flex;
@@ -43,16 +42,10 @@ const ButtonContainer = styled.div`
 //#endregion
 const Gothello: React.FC = () => {
   const { board } = useBoardStore();
-  const { current, whiteStone, blackStone, stonecount, setCurrent } =
-    useStoneStore();
+  const { current, whiteStone, blackStone, setCurrent } = useStoneStore();
   /**Modal State Setting */
-  const [isOpen, setIsOpen] = useState(false);
 
   const [passButtonVisible, setPassButtonVisible] = useState(false);
-
-  const handleModalState = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   /**PASS 버튼 클릭시 => 다음 턴으로 넘겨야 한다. */
   const handleButtonState = () => {
@@ -68,20 +61,6 @@ const Gothello: React.FC = () => {
 
   // 타켓 표시를 위한 좌표 찾기
   const targets = ItCanPlaces(board, X, Y, current);
-
-  // 돌을 놓을 수 있는 자리가 있는가?
-
-  useEffect(() => {
-    if (!IsCanMove(targets)) {
-      console.log("돌을 놓을 수 없습니다.");
-      // 가득 찼다면
-      if (stonecount === 64) {
-        setIsOpen(true);
-      } else {
-        setPassButtonVisible(true);
-      }
-    }
-  }, [current]);
 
   return (
     <>
