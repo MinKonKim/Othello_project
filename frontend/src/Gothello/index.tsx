@@ -13,6 +13,7 @@ import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx } from "../utils/Global";
+import { IsCanMove } from "./../utils/IsCanMove";
 //#region  CSS
 const Container = styled.div`
   display: flex;
@@ -70,12 +71,14 @@ const Gothello: React.FC = () => {
     // 타켓 표시를 위한 좌표 찾기
     const newTargets = ItCanPlaces(board, X, Y, current);
     setTargets(newTargets);
-  }, [whiteStone, blackStone, current, board]);
+
+    setPassButtonVisible(IsCanMove(newTargets));
+  }, [current]);
 
   return (
     <>
       <Background />
-      <Modal blackStone={blackStone} whiteStone={whiteStone} />
+      {/* <Modal blackStone={blackStone} whiteStone={whiteStone} /> */}
       <Container>
         <LeftSection>
           <CurrentPlayer />
