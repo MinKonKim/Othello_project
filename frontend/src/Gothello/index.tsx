@@ -24,6 +24,7 @@ const Container = styled.div`
 const LeftSection = styled.div`
   flex: 1;
   margin-right: 50px;
+  margin-left: 2.75vw;
   flex-direction: colum;
 `;
 const CenterSection = styled.div`

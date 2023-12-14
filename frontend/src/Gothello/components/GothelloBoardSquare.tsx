@@ -8,6 +8,22 @@ import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "./../../stores/uselatestPoint";
 
 /** css  */
+const TargetContainer = styled.div`
+  margin-top: 1.2rem;
+  position: relative;
+  display: inline-block;
+`;
+
+const TextOverImage = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 680;
+  color: "#222423";
+`;
 
 const Button = styled.button`
   background-color: rgba(0, 99, 0, 1);
@@ -103,7 +119,12 @@ const GothelloBoardSquare = ({
   };
   // 타겟 출력
   const renderTarget = () => {
-    return <img src={target} alt="target" width="70rem" height="60rem" />;
+    return (
+      <TargetContainer>
+        <img src={target} alt="target" width="70rem" height="70rem" />;
+        <TextOverImage>{id}</TextOverImage>
+      </TargetContainer>
+    );
   };
 
   const Render = () => {
