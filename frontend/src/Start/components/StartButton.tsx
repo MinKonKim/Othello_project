@@ -43,7 +43,8 @@ const StartButton: React.FC = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/game");
+    navigate("/game", { replace: true });
+    window.location.reload();
   };
 
   return <FifthButton onClick={handleButtonClick}>StartButton</FifthButton>;

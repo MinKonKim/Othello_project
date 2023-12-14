@@ -2,6 +2,7 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useBoardStore from "../stores/useBoardStore";
 
 //#region CSS
 const fadeIn = keyframes`
@@ -101,10 +102,12 @@ interface ModalProps {
 
 const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [winner, setWinner] = useState("무승부");
+  const [winner, setWinner] = useState("");
 
+  const { resetBoard } = useBoardStore();
   const toggleModal = () => {
     setShowModal((prev) => !prev);
+    resetBoard();
   };
   const WhoIsWinner = () => {
     setShowModal(true);

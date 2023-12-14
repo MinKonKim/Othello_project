@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
 import Background from "../components/background";
@@ -22,8 +22,8 @@ const Container = styled.div`
 
 const LeftSection = styled.div`
   flex: 1;
-  margin-right: 50px
-  flex-dirction: colum;
+  margin-right: 50px;
+  flex-direction: colum;
 `;
 const CenterSection = styled.div`
   flex: 1;
@@ -31,17 +31,21 @@ const CenterSection = styled.div`
 `;
 
 const RightSection = styled.div`
-display:felx
-felx-direction:colum;
-justify-content: flex-start;
-align-items: flex-end;
+  display: felx;
+  flex-direction: colum;
+  justify-content: flex-start;
+  align-items: flex-end;
 `;
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 //#endregion
 const Gothello: React.FC = () => {
-  const { board } = useBoardStore();
+  //targets 초기화
+  const intialTargets = Array(8).fill(Array(8).fill(false));
+  const [targets, setTargets] = useState<boolean[][]>(intialTargets);
+
+  const { board, resetBoard } = useBoardStore();
   const { current, whiteStone, blackStone, setCurrent } = useStoneStore();
   /**Modal State Setting */
 
@@ -54,13 +58,19 @@ const Gothello: React.FC = () => {
     else setCurrent(1);
   };
 
-  // 타겟서칭을 할 돌 기준 잡기
-  const keystone = FindStoneIdx(board, current);
-  let X = keystone.x;
-  let Y = keystone.y;
+  useEffect(() => {
+    resetBoard();
+  }, []);
+  useEffect(() => {
+    // 타겟서칭을 할 돌 기준 잡기
+    const keystone = FindStoneIdx(board, current);
+    let X = keystone.x;
+    let Y = keystone.y;
 
-  // 타켓 표시를 위한 좌표 찾기
-  const targets = ItCanPlaces(board, X, Y, current);
+    // 타켓 표시를 위한 좌표 찾기
+    const newTargets = ItCanPlaces(board, X, Y, current);
+    setTargets(newTargets);
+  }, [whiteStone, blackStone, current, board]);
 
   return (
     <>
