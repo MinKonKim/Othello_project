@@ -124,7 +124,7 @@ const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
 
   return (
     <div>
-      <button onClick={WhoIsWinner}>Show Modal</button>
+      {/* <button onClick={WhoIsWinner}>Show Modal</button> */}
       {showModal && (
         <Modal show={showModal} onClick={toggleModal}>
           <Section>

@@ -78,7 +78,7 @@ const Gothello: React.FC = () => {
   return (
     <>
       <Background />
-      {/* <Modal blackStone={blackStone} whiteStone={whiteStone} /> */}
+      <Modal blackStone={blackStone} whiteStone={whiteStone} />
       <Container>
         <LeftSection>
           <CurrentPlayer />
