@@ -9,8 +9,7 @@ const VideoBackground = styled.video`
   height: 100%;
   object-fit: cover; /* 비디오가 캔버스에 꽉 차게 표시되도록 설정 */
   z-index: -99; /* 다른 요소 위에 배치하기 위해 z-index 설정 */
-  mix-blend-mode: overlay;
-  opacity: 0.3;
+  mix-blend-mode: screen;
 `;
 const BackGroundEffet: React.FC = () => {
   return (

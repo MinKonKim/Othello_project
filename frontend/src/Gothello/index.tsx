@@ -12,7 +12,7 @@ import PassButton from "./components/PassButton";
 import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
-import { FindStoneIdx } from "../utils/Global";
+import { FindStoneIdx, isGameFinish } from "../utils/Global";
 import { IsCanMove } from "./../utils/IsCanMove";
 //#region  CSS
 const Container = styled.div`
@@ -32,12 +32,6 @@ const CenterSection = styled.div`
   margin: 0 auto;
 `;
 
-const RightSection = styled.div`
-  display: felx;
-  flex-direction: colum;
-  justify-content: flex-start;
-  align-items: flex-end;
-`;
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
@@ -48,7 +42,7 @@ const Gothello: React.FC = () => {
   const [targets, setTargets] = useState<boolean[][]>(intialTargets);
 
   const { board, resetBoard } = useBoardStore();
-  const { current, whiteStone, blackStone, setCurrent } = useStoneStore();
+  const { current, setCurrent, whiteStone, blackStone } = useStoneStore();
   /**Modal State Setting */
 
   const [passButtonVisible, setPassButtonVisible] = useState(false);
@@ -73,13 +67,17 @@ const Gothello: React.FC = () => {
     const newTargets = ItCanPlaces(board, X, Y, current);
     setTargets(newTargets);
 
-    setPassButtonVisible(IsCanMove(newTargets));
+    if (isGameFinish(blackStone, whiteStone)) {
+      setPassButtonVisible(false);
+    } else if (IsCanMove(newTargets)) {
+      setPassButtonVisible(true);
+    }
   }, [current]);
 
   return (
     <>
       <Background />
-      <Modal blackStone={blackStone} whiteStone={whiteStone} />
+      <Modal />
       <Container>
         <LeftSection>
           <CurrentPlayer />

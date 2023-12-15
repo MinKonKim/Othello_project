@@ -16,6 +16,8 @@ const Item = styled.span`
 `;
 const Image = styled.img`
   margin-right: 5px;
+  padding-right: 5px;
+  margin-right: 4px;
 `;
 interface ScoreBoardProps {
   board: number[][];

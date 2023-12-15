@@ -17,7 +17,6 @@ const ButtonStyle = styled.button<{ isVisible: boolean }>`
 const PassButton: React.FC<PassButtonProps> = ({ isVisible, onClose }) => {
   return (
     <ButtonStyle isVisible={isVisible} onClick={onClose}>
-      {" "}
       PASS
     </ButtonStyle>
   );

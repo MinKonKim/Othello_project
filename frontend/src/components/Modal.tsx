@@ -3,8 +3,12 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useBoardStore from "../stores/useBoardStore";
+import useStoneStore from "../stores/useStoneStore";
+import { isGameFinish } from "../utils/isGameFinish";
 
 //#region CSS
+const color = "#e3c39a";
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -92,15 +96,46 @@ const Section = styled.section`
     }
   }
 `;
+const FifthButton = styled.button`
+  border-color: ${color};
+  border-radius: 5px;
+  color: ${color};
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 150ms ease-in-out;
+  width: 15rem;
+  height: 5rem;
+  font-size: 20px;
+  font-weight: 700;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 100%;
+    background: ${color};
+    z-index: -1;
+    transition: width 150ms ease-in-out;
+  }
+
+  &:hover {
+    color: #fff;
+    &:after {
+      width: 110%;
+    }
+  }
+`;
+
 export { Modal, Section };
 //#endregion
 
-interface ModalProps {
-  blackStone: number;
-  whiteStone: number;
-}
-
-const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
+const ModalSection = () => {
+  const { blackStone, whiteStone } = useStoneStore();
   const [showModal, setShowModal] = useState(false);
   const [winner, setWinner] = useState("");
 
@@ -117,25 +152,27 @@ const ModalSection = ({ blackStone, whiteStone }: ModalProps) => {
   };
 
   useEffect(() => {
-    if (blackStone + whiteStone === 64) {
+    if (isGameFinish(blackStone, whiteStone)) {
       WhoIsWinner();
     }
   }, [blackStone, whiteStone]);
 
   return (
     <div>
-      {/* <button onClick={WhoIsWinner}>Show Modal</button> */}
+      <button onClick={WhoIsWinner}>Show Modal</button>
       {showModal && (
         <Modal show={showModal} onClick={toggleModal}>
           <Section>
             <header></header>
             <main>
               <h1>Winner : {winner}</h1>
-              <p>Click the button to restart</p>
+              <p>
+                Black : {blackStone} white: {whiteStone}
+              </p>
             </main>
             <footer>
               <Link to="/">
-                <button onClick={toggleModal}>재시작</button>
+                <FifthButton onClick={toggleModal}>RESTART</FifthButton>
               </Link>
             </footer>
           </Section>

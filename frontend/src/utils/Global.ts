@@ -20,6 +20,11 @@ export const FindStoneIdx = (board: number[][], stone: number) => {
   return idx;
 };
 
+export const isGameFinish = (black: number, white: number) => {
+  if (black + white === 64) return true;
+  return false;
+};
+
 /** 디버깅 용  */
 export const PrintStoneState = (stoneIdx: number) => {
   let stone;

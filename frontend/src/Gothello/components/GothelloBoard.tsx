@@ -7,6 +7,7 @@ import { Flip } from "../../utils/Flip";
 import { Opposite } from "../../utils/Global";
 
 import GothelloBoardSquare from "./GothelloBoardSquare";
+import { useEffect } from "react";
 
 const BackBoard = styled.div`
   display: flex;
@@ -40,15 +41,17 @@ const GothelloBoard = ({ board, targets }: GothelloBoardProps) => {
 
   const opposite = Opposite(current);
 
-  // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
-  let flipBoard = Flip(board, latestX, latestY, opposite);
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      if (flipBoard[i][j]) {
-        board[i][j] = opposite;
+  useEffect(() => {
+    // 뒤집힐 돌의 좌표들 찾기 + 해당 좌표의 숫자 변경
+    let flipBoard = Flip(board, latestX, latestY, opposite);
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        if (flipBoard[i][j]) {
+          board[i][j] = opposite;
+        }
       }
     }
-  }
+  }, [latestX, latestY]);
 
   return (
     <div>

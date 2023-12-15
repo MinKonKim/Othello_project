@@ -1,12 +1,13 @@
 export const IsCanMove = (target: boolean[][]): boolean => {
   // let result = false;
-  target.forEach((row) => {
-    row.forEach((value) => {
-      if (value) {
-        return true;
-      }
-    });
-  });
 
-  return false;
+  for (let i = 0; i < target.length; i++) {
+    for (let j = 0; j < target[i].length; j++) {
+      const element = target[i][j];
+
+      if (element) return false;
+    }
+  }
+
+  return true;
 };
