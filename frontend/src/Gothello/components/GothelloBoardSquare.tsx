@@ -9,14 +9,14 @@ import uselatestPoint from "./../../stores/uselatestPoint";
 
 //#region CSS
 const TargetContainer = styled.div`
-  margin-top: 1.2rem;
+  margin-top: 3.3px;
   position: relative;
   display: inline-block;
 `;
 
 const TextOverImage = styled.div`
   position: absolute;
-  top: 40%;
+  top: 47.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 22px;
@@ -122,7 +122,7 @@ const GothelloBoardSquare = ({
   const renderTarget = () => {
     return (
       <TargetContainer>
-        <img src={target} alt="target" width="70rem" height="70rem" />;
+        <img src={target} alt="target" width="70rem" height="70rem" />
         <TextOverImage>{id}</TextOverImage>
       </TargetContainer>
     );

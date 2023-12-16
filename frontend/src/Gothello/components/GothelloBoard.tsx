@@ -52,7 +52,7 @@ const GothelloBoard = ({ board, targets }: GothelloBoardProps) => {
         }
       }
     }
-  }, [latestX, latestY]);
+  }, [latestX, latestY, board]);
 
   return (
     <div>

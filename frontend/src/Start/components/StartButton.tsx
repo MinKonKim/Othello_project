@@ -47,7 +47,17 @@ const StartButton: React.FC = () => {
     window.location.reload();
   };
 
-  return <FifthButton onClick={handleButtonClick}>StartButton</FifthButton>;
+  const handleDevMode = () => {
+    navigate("/game/dev", { replace: true });
+    window.location.reload();
+  };
+
+  return (
+    <div>
+      <FifthButton onClick={handleButtonClick}>StartButton</FifthButton>;
+      <FifthButton onClick={handleDevMode}>DevMode</FifthButton>
+    </div>
+  );
 };
 
 export default StartButton;
