@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
-import { isGameFinish } from "../utils/isGameFinish";
+// import { isGameFinish } from "../utils/Global";
 
 //#region CSS
 const color = "#e3c39a";
@@ -138,6 +138,7 @@ const ModalSection = () => {
   const { blackStone, whiteStone } = useStoneStore();
   const [showModal, setShowModal] = useState(false);
   const [winner, setWinner] = useState("");
+  const [Finish, setFinish] = useState(false);
 
   const { resetBoard } = useBoardStore();
   const toggleModal = () => {
@@ -145,29 +146,38 @@ const ModalSection = () => {
     resetBoard();
   };
   const WhoIsWinner = () => {
-    setShowModal(true);
-    if (blackStone > whiteStone) setWinner("Black");
-    else if (whiteStone < blackStone) setWinner("White");
-    else setWinner("무승부");
+    if (Finish) {
+      if (blackStone > whiteStone) setWinner("Black");
+      else if (whiteStone < blackStone) setWinner("White");
+      else setWinner("Draw");
+      setShowModal(true);
+    }
   };
 
   useEffect(() => {
-    if (isGameFinish(blackStone, whiteStone)) {
+    if (blackStone + whiteStone === 64) {
+      setFinish(true);
       WhoIsWinner();
     }
   }, [blackStone, whiteStone]);
 
   return (
     <div>
-      <button onClick={WhoIsWinner}>Show Modal</button>
+      {/* <button onClick={WhoIsWinner}>Show Modal</button> */}
       {showModal && (
         <Modal show={showModal} onClick={toggleModal}>
           <Section>
             <header></header>
             <main>
-              <h1>Winner : {winner}</h1>
+              {Finish &&
+                (winner !== "Draw" ? (
+                  <h1>Winner : {winner}</h1>
+                ) : (
+                  <h1>~DRAW~</h1>
+                ))}
+
               <p>
-                Black : {blackStone} white: {whiteStone}
+                Black : {blackStone} White: {whiteStone}
               </p>
             </main>
             <footer>

@@ -1,4 +1,4 @@
-export const IsCanMove = (target: boolean[][]): boolean => {
+export const IsCanMove = (target: boolean[][] | number): boolean => {
   // let result = false;
 
   for (let i = 0; i < target.length; i++) {

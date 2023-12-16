@@ -7,7 +7,7 @@ import useBoardStore from "../../stores/useBoardStore";
 import useStoneStore from "../../stores/useStoneStore";
 import uselatestPoint from "./../../stores/uselatestPoint";
 
-/** css  */
+//#region CSS
 const TargetContainer = styled.div`
   margin-top: 1.2rem;
   position: relative;
@@ -46,6 +46,7 @@ const Button = styled.button`
     height: 1.5rem;
   }
 `;
+//#endregion
 /** Square 상태 종류 :
  * 크기  size
  * 좌표 값 x , y

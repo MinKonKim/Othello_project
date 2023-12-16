@@ -9,6 +9,7 @@ import { Opposite } from "../../utils/Global";
 import GothelloBoardSquare from "./GothelloBoardSquare";
 import { useEffect } from "react";
 
+//#region CSS
 const BackBoard = styled.div`
   display: flex;
   justify-content: center;
@@ -28,7 +29,7 @@ const BoardContainer = styled.div`
 `;
 
 const SQUARE_SIZE = "4.5rem";
-
+//#endregion
 interface GothelloBoardProps {
   board: number[][];
   targets: boolean[][];
