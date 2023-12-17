@@ -10,17 +10,21 @@ import uselatestPoint from "../stores/uselatestPoint";
 
 const containerStyles = css`
   display: grid;
+  padding: 1rem;
   gap: 5px;
 `;
 
 const rowStyles = css`
-  display: flex;
-  gap: 5px;
+  display: inline-flex;
+  gap: 0.2rem;
 `;
 
 const cellStyles = css`
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
+  min-width: 30px;
+  min-height: 30px;
+  text-align: center;
 `;
 const HistoryWrapper = styled.div`
   display: flex;
@@ -75,7 +79,7 @@ const BoardHistoryUI: React.FC = () => {
   return (
     <>
       <HistoryWrapper>
-        <Gothello />
+        <Gothello board={grid} />
 
         <div>
           <button onClick={undo} disabled={pointer === 0}>

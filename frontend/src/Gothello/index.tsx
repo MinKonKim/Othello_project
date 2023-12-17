@@ -15,6 +15,7 @@ import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx, isGameFinish } from "../utils/Global";
 import { IsCanMove } from "./../utils/IsCanMove";
 //#region  CSS
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -36,12 +37,17 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 //#endregion
-const Gothello: React.FC = () => {
+
+interface GothelloProps {
+  board: number[][];
+}
+
+const Gothello = ({ board }: GothelloProps) => {
   //targets 초기화
   const intialTargets = Array(8).fill(Array(8).fill(false));
   const [targets, setTargets] = useState<boolean[][]>(intialTargets);
 
-  const { board, resetBoard } = useBoardStore();
+  const { resetBoard } = useBoardStore();
   const { current, setCurrent, whiteStone, blackStone } = useStoneStore();
   /**Modal State Setting */
 

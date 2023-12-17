@@ -1,10 +1,9 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
-// import { isGameFinish } from "../utils/Global";
 
 //#region CSS
 const color = "#e3c39a";
@@ -137,29 +136,12 @@ export { Modal, Section };
 const ModalSection = () => {
   const { blackStone, whiteStone } = useStoneStore();
   const [showModal, setShowModal] = useState(false);
-  const [winner, setWinner] = useState("");
-  const [Finish, setFinish] = useState(false);
 
   const { resetBoard } = useBoardStore();
   const toggleModal = () => {
     setShowModal((prev) => !prev);
     resetBoard();
   };
-  const WhoIsWinner = () => {
-    if (Finish) {
-      if (blackStone > whiteStone) setWinner("Black");
-      else if (whiteStone < blackStone) setWinner("White");
-      else setWinner("Draw");
-      setShowModal(true);
-    }
-  };
-
-  useEffect(() => {
-    if (blackStone + whiteStone === 64) {
-      setFinish(true);
-      WhoIsWinner();
-    }
-  }, [blackStone, whiteStone]);
 
   return (
     <div>
@@ -169,13 +151,11 @@ const ModalSection = () => {
           <Section>
             <header></header>
             <main>
-              {Finish &&
-                (winner !== "Draw" ? (
-                  <h1>Winner : {winner}</h1>
-                ) : (
-                  <h1>~DRAW~</h1>
-                ))}
-
+              {blackStone !== whiteStone ? (
+                <h1>Winner : {blackStone > whiteStone ? "Black" : "White"}</h1>
+              ) : (
+                <h1>~DRAW~</h1>
+              )}
               <p>
                 Black : {blackStone} White: {whiteStone}
               </p>
