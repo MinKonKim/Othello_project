@@ -2,7 +2,7 @@
     <img src="https://capsule-render.vercel.app/api?type=soft&color=0:8ff0a2,100:0eb003&height=240&text=Othello%20프로젝트&animation=fadeIn&fontColor=00330d&fontSize=60" />
     </div>
     <div style="text-align: left;"> 
-    <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 스트리머들과의 치열한 두뇌싸움! </h2>  
+    <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 방송인들과의 치열한 두뇌싸움! </h2>  
     <div style="font-weight: 700; font-size: 15px; text-align: left; color: #282d33;"> <li> 세간의 핫하게 인기를 얻은 Kibitz bugs의 오목에 영감을 얻어 스트리머들과 시청자들과의 오델로 대결을 해보면 재밌을거 같아 시작하게 되었습니다!! </li><li> 트위치의 철수 소식을 접하게 되어</li>네이버의 치지직을 이용하여 서비스를 진행 할 수 있도록 제작할 의도입니다. </div> 
     </div>
     <div style="text-align: left;">
