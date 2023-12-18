@@ -18,10 +18,10 @@ const fadeOut = keyframes`
   to { opacity: 0; }
 `;
 
-const slideUp = keyframes`
-  from { transform: translateY(-100px); }
-  to { transform: translateY(0px); }
-`;
+// const slideUp = keyframes`
+//   from { transform: translateY(-100px); }
+//   to { transform: translateY(0px); }
+// `;
 
 const slideDown = keyframes`
   from { transform: translateY(0px); }
@@ -36,7 +36,7 @@ const Modal = styled.div<{ show: boolean }>`
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
-  animation: ${(props) => (props.show ? fadeIn : fadeOut)} 0.25s ease-out
+  animation: ${(props) => (props.show ? fadeIn : fadeOut)} 0.4s ease-out
     forwards;
   display: flex;
   justify-content: center;

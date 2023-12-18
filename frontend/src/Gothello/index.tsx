@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
 import Background from "../components/background";
@@ -14,6 +14,7 @@ import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx, isGameFinish } from "../utils/Global";
 import { IsCanMove } from "./../utils/IsCanMove";
+import Chatbox from "../components/Chatbox";
 //#region  CSS
 
 const Container = styled.div`
@@ -98,6 +99,7 @@ const Gothello = ({ board }: GothelloProps) => {
             />
           </ButtonContainer>
         </CenterSection>
+        <Chatbox />
       </Container>
     </>
   );
