@@ -59,7 +59,6 @@ const ToggleSwitchSlider = styled.span`
  * 4.
  *
  *
- *
  */
 const SettingMenu = () => {
   const [isChecked, setIsChecked] = useState(false);

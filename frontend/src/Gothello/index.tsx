@@ -99,7 +99,6 @@ const Gothello = ({ board }: GothelloProps) => {
             />
           </ButtonContainer>
         </CenterSection>
-        <Chatbox />
       </Container>
     </>
   );

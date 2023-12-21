@@ -28,7 +28,6 @@ const StartPage: React.FC = () => {
           <StartButton />
         </ButtonWrapper>
       </LeftSide>
-      <Chatbox />
     </div>
   );
 };
