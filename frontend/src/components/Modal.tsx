@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
 import useBoardStore from "../stores/useBoardStore";
 import useStoneStore from "../stores/useStoneStore";
@@ -28,7 +28,7 @@ const slideDown = keyframes`
   to { transform: translateY(-100px); }
 `;
 
-const Modal = styled.div<{ show: boolean }>`
+const ModalWrapper = styled.div<{ show: boolean }>`
   position: fixed;
   top: 0;
   right: 0;
@@ -130,16 +130,19 @@ const FifthButton = styled.button`
   }
 `;
 
-export { Modal, Section };
+export { ModalWrapper, Section };
 //#endregion
+interface ModalProps {
+  showModal: boolean;
+}
 
-const ModalSection = () => {
+const ModalSection = ({ showModal }: ModalProps) => {
   const { blackStone, whiteStone } = useStoneStore();
-  const [showModal, setShowModal] = useState(false);
+  /* const [showModal, setShowModal] = useState(false); */
 
   const { resetBoard } = useBoardStore();
   const toggleModal = () => {
-    setShowModal((prev) => !prev);
+    /* setShowModal((prev) => !prev); */
     resetBoard();
   };
 
@@ -147,7 +150,7 @@ const ModalSection = () => {
     <div>
       {/* <button onClick={WhoIsWinner}>Show Modal</button> */}
       {showModal && (
-        <Modal show={showModal} onClick={toggleModal}>
+        <ModalWrapper show={showModal} onClick={toggleModal}>
           <Section>
             <header></header>
             <main>
@@ -166,7 +169,7 @@ const ModalSection = () => {
               </Link>
             </footer>
           </Section>
-        </Modal>
+        </ModalWrapper>
       )}
     </div>
   );

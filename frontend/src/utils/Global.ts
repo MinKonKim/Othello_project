@@ -7,7 +7,7 @@ export const Opposite = (current: number): number => {
   return opposite;
 };
 export const FindStoneIdx = (board: number[][], stone: number) => {
-  let idx: Coordinate = { x: 0, y: 0 };
+  const idx: Coordinate = { x: 0, y: 0 };
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       if (board[i][j] === stone) {
@@ -21,13 +21,14 @@ export const FindStoneIdx = (board: number[][], stone: number) => {
 };
 
 export const isGameFinish = (black: number, white: number) => {
-  if (black + white === 64) return true;
+  if (black + white === 64 || black === 0 || white === 0) return true;
   return false;
 };
 
 /** 디버깅 용  */
 export const PrintStoneState = (stoneIdx: number) => {
   let stone;
+  // eslint-disable-next-line prefer-const
   stone = stoneIdx === 1 ? "흑돌" : "백돌";
   return stone;
 };

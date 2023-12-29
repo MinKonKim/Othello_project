@@ -14,7 +14,6 @@ import useStoneStore from "../stores/useStoneStore";
 import { ItCanPlaces } from "../utils/CheckPlace";
 import { FindStoneIdx, isGameFinish } from "../utils/Global";
 import { IsCanMove } from "./../utils/IsCanMove";
-import Chatbox from "../components/Chatbox";
 //#region  CSS
 
 const Container = styled.div`
@@ -47,6 +46,7 @@ const Gothello = ({ board }: GothelloProps) => {
   //targets 초기화
   const intialTargets = Array(8).fill(Array(8).fill(false));
   const [targets, setTargets] = useState<boolean[][]>(intialTargets);
+  const [ShowModal, setShowModal] = useState(false);
 
   const { resetBoard } = useBoardStore();
   const { current, setCurrent, whiteStone, blackStone } = useStoneStore();
@@ -67,24 +67,26 @@ const Gothello = ({ board }: GothelloProps) => {
   useEffect(() => {
     // 타겟서칭을 할 돌 기준 잡기
     const keystone = FindStoneIdx(board, current);
-    let X = keystone.x;
-    let Y = keystone.y;
+    const X = keystone.x;
+    const Y = keystone.y;
 
     // 타켓 표시를 위한 좌표 찾기
     const newTargets = ItCanPlaces(board, X, Y, current);
     setTargets(newTargets);
 
+    // 게임 종료시 , 혹은 더이상 돌을 놓을 수 없는 경우
     if (isGameFinish(blackStone, whiteStone)) {
+      setShowModal(true);
       setPassButtonVisible(false);
     } else if (IsCanMove(newTargets)) {
       setPassButtonVisible(true);
     }
-  }, [current]);
+  }, [current, board]);
 
   return (
     <>
       <Background />
-      <Modal />
+      <Modal showModal={ShowModal} />
       <Container>
         <LeftSection>
           <CurrentPlayer />

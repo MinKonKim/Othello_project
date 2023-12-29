@@ -18,17 +18,17 @@ export const ItCanPlaces = (
    */
   // dx: Direction X  dy: Driection Y   / nx : Near X  ny: Near Y
 
-  let stack: Coordinate[] = [];
-  let currentCoord: Coordinate = { x: x, y: y };
+  const stack: Coordinate[] = [];
+  const currentCoord: Coordinate = { x: x, y: y };
   stack.push(currentCoord);
 
   const opposite = Opposite(currentStone);
   while (stack.length > 0) {
-    let curr = stack.pop();
+    const curr = stack.pop();
     if (curr === undefined) break;
     for (let i = 0; i < 8; i++) {
-      let dx = DirX[i];
-      let dy = DirY[i];
+      const dx = DirX[i];
+      const dy = DirY[i];
 
       let hasOpposite = false;
 
